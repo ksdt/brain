@@ -6,6 +6,7 @@ var gulp = require('gulp'),
 gulp.task('lint', () => {
     return gulp.src(["app/js/*.js", "app/js/*.jsx"])
       .pipe(eslint())
+      .on('error', function (error) { console.log(error.toString()); this.emit('end'); })
       .pipe(eslint.format());
 });
 
@@ -14,9 +15,15 @@ gulp.task('copy', () => {
         .pipe(gulp.dest("dist"));
 });
 
+gulp.task('css', () => {
+    return gulp.src("app/css/*.css")
+        .pipe(gulp.dest("dist/css"));
+});
+
 gulp.task('sass', () => {
     return gulp.src("app/sass/*.scss")
       .pipe(sass())
+      .on('error', function (error) { console.log(error.toString()); this.emit('end'); })
       .pipe(gulp.dest("dist/css"));
 });
 
@@ -31,6 +38,7 @@ gulp.task('watch', () => {
 gulp.task('js', () => {
     return gulp.src(["app/js/*.js", "app/js/*.jsx"])
       .pipe(babel())
+      .on('error', function (error) { console.log(error.toString()); this.emit('end'); })
       .pipe(gulp.dest("dist"));
 });
 
